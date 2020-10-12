@@ -112,7 +112,6 @@ class App extends React.Component {
               <a href="https://aaerialys.cf"><img src={logo} alt="logo" /></a>
             </header>
             <div className="main">
-                <p>Search algorithm simulator</p>
             </div>
             <div>
                 <button onClick={() => this.setMark(3)}>Add Wall</button>
@@ -120,6 +119,8 @@ class App extends React.Component {
                 <button onClick={() => this.setMark(2)}>Add Sink</button>
                 <button onClick={() => this.clear()}>Clear</button>
                 <button onClick={() => this.search(1)}>Search</button>
+
+                <p>This program simulates pathfinding algorithms on a grid to find the shortest path from any source to sink.</p>
                 <Grid grid={this.state.grid} mousePress={(x) => this.mousePress(x)} dragOver={(x,y,click) => this.dragOver(x,y,click)}/>
             </div>
             <footer>

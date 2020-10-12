@@ -29,7 +29,12 @@ body{
 	display:none !important;
 }
 p{
-	margin:0px;
+	margin:0px 10px;
+	display: inline;
+}
+button{
+  	border: 1px solid #777;
+  	display: inline;
 }
 
 /****header****/
