@@ -65,6 +65,10 @@ class App extends React.Component {
     sleep(delay) {
       return new Promise(resolve => setTimeout(resolve, delay));
     }
+    clear() {
+        var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
+        for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
+    }
     search(delay){
         var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
         this.bfs(delay);
@@ -110,10 +114,11 @@ class App extends React.Component {
                 <p>Search algorithm simulator</p>
             </div>
             <div>
-                <button onClick={() => this.setMark(3)}> Add Wall</button>
-                <button onClick={() => this.setMark(1)}> Add Source</button>
-                <button onClick={() => this.setMark(2)}> Add Sink</button>
-                <button onClick={() => this.search(1)}> Search</button>
+                <button onClick={() => this.setMark(3)}>Add Wall</button>
+                <button onClick={() => this.setMark(1)}>Add Source</button>
+                <button onClick={() => this.setMark(2)}>Add Sink</button>
+                <button onClick={() => this.clear()}>Clear</button>
+                <button onClick={() => this.search(1)}>Search</button>
                 <Grid grid={this.state.grid} mousePress={(x) => this.mousePress(x)} dragOver={(x,y,click) => this.dragOver(x,y,click)}/>
             </div>
             <footer>
