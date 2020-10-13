@@ -300,10 +300,10 @@ class App extends React.Component {
             var p=this.state.board=="maze"? 0:0.2;
             for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<p? 3: 0);
             var dx=[1,0,-1,0],dy=[0,1,0,-1],toV=[],num=Array(H).fill().map(()=>Array(W).fill(0)),cur=0;
-            toV.push([0,0]); toV.push([H-1,W-1]);
+            toV.push([0,0]); //toV.push([H-1,W-1]);
             while(cur<toV.length){
                 let x=toV[cur][0],y=toV[cur][1]; cur++; console.log(x,y);
-                if(num[x][y]>1&&Math.random()>p){
+                if(num[x][y]>1&&Math.random()>p&&0<x&&x<H-1&&0<y&&y<W-1){
                     this.setVal(x,y,3);
                     continue;
                 }
