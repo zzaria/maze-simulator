@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import logo from './assets/images/logo.ico'
 
-var H=Math.floor(window.screen.height/25)-12,W=Math.floor(window.screen.width/25)-1;
+var H=Math.floor(window.innerHeight/25)-6,W=Math.floor(window.innerWidth/25)-1;
 
 function Cell(props){
     return(
