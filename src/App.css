@@ -1,5 +1,4 @@
 .cell{
-  background: #fff;
   border: 1px solid #777;
   height: 24px;
   width: 24px;
@@ -10,9 +9,6 @@
    -moz-user-select: -moz-none;
    -khtml-user-select: none;
    -webkit-user-select: none;
-}
-.cell:focus{
-    outline: none;
 }
 div{
     padding: 0px;
