@@ -6,8 +6,8 @@ var H=Math.floor(window.screen.height/25)-12,W=Math.floor(window.screen.width/25
 
 function Cell(props){
     return(
-        <div className="cell" style={{backgroundColor: props.color}} onMouseOver={() => props.dragOver(0)} onMouseDown={() => props.dragOver(1)}>
-            
+        <div className="cell" style={{backgroundColor: props.color, color: props.color2}} onMouseOver={() => props.dragOver(0)} onMouseDown={() => props.dragOver(1)}>
+            ●
         </div>
     );
 }
@@ -24,11 +24,14 @@ class Grid extends React.Component{
         for(let i=0;i<H;i++){
             var row=[];
             for(let j=0;j<W;j++){
-                if(this.props.grid[i][j]>=0) row.push(<Cell key={i*W+j} color={this.state.color[this.props.grid[i][j]]} dragOver={(x) => this.props.dragOver(i,j,x)}/>);
+                if(this.props.grid[i][j]>=0) row.push(<Cell key={i*W+j} color={this.state.color[this.props.grid[i][j]]} color2={this.state.color[this.props.grid[i][j]]} dragOver={(x) => this.props.dragOver(i,j,x)}/>);
                 else{
-                    var col=Math.max(0,256-Math.floor(Math.log2(1-this.props.grid[i][j])*20)).toString(16);
+                    var col=Math.max(0,256-Math.floor(Math.log2(1-this.props.grid[i][j]%10000)*20)).toString(16),col2=Math.floor(-this.props.grid[i][j]/10000);
                     while(col.length<2) col="0"+col;
-                    row.push(<Cell key={i*W+j} color={"#"+col+col+col} dragOver={(x) => this.props.dragOver(i,j,x)}/>);
+                    col="#"+col+col+col;
+                    if(col2==0) col2=col;
+                    else col2=this.state.color[col2];
+                    row.push(<Cell key={i*W+j} color={col} color2={col2} dragOver={(x) => this.props.dragOver(i,j,x)}/>);
                 }
             }
             grid.push(<div key={i}>{row}</div>);
@@ -52,6 +55,7 @@ class App extends React.Component {
             stop: [],
             weight: 0,
             algo: "bfs",
+            board: "clear",
         };
     }
     setVal(x,y,val){
@@ -73,10 +77,6 @@ class App extends React.Component {
     sleep(delay) {
       return new Promise(resolve => setTimeout(resolve, delay));
     }
-    clear() {
-        var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
-        for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
-    }
     search(delay){
         var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
         if(this.state.algo=="bfs") this.bfs(delay);
@@ -93,6 +93,7 @@ class App extends React.Component {
                 p[i][j]=-1; toV.push([i,j]);
             }
             else if(this.state.grid[i][j]==3) p[i][j]=-1;
+            else if(this.state.grid[i][j]<=-10000) this.state.grid[i][j]=this.state.grid[i][j]%10000;
         }
         while(cur<toV.length){
             if(this.state.stop[id]==1) break;
@@ -101,27 +102,31 @@ class App extends React.Component {
                 while(p[x][y]!=-1){
                     if(this.state.stop[id]==1) break;
                     if(this.state.grid[x][y]==5) this.setVal(x,y,6);
+                    else if(this.state.grid[x][y]<=-50000) this.setVal(x,y,this.state.grid[x][y]-10000);
                     let d=p[x][y]; x-=dx[d]; y-=dy[d];
                     if(delay) await this.sleep(delay);
                 }
                 break;
             }
             else if(this.state.grid[x][y]==4) this.setVal(x,y,5);
+            else if(-50000<this.state.grid[x][y]&&this.state.grid[x][y]<=-40000) this.setVal(x,y,this.state.grid[x][y]-10000);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W&&p[x+dx[i]][y+dy[i]]==null){
                 p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                 if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
             }
             if(delay) await this.sleep(delay);
         }
     }
     async dfs(delay){
-        var dx=[1,0,-1,0],dy=[0,1,0,-1],p=Array(H).fill().map(()=>Array(W)),toV=[],cur=0,id=this.state.fid; this.setState({fid:id+1});
+        var dx=[1,0,-1,0],dy=[0,1,0,-1],p=Array(H).fill().map(()=>Array(W)),toV=[],id=this.state.fid; this.setState({fid:id+1});
         for(let i=0;i<H;i++) for(let j=0;j<W;j++){
             if(this.state.grid[i][j]>3) this.setVal(i,j,0);
             else if(this.state.grid[i][j]==1){
                 p[i][j]=-1; toV.push([i,j]);
             }
             else if(this.state.grid[i][j]==3) p[i][j]=-1;
+            else if(this.state.grid[i][j]<=-10000) this.state.grid[i][j]=this.state.grid[i][j]%10000;
         }
         while(toV.length>0){
             if(this.state.stop[id]==1) break;
@@ -130,15 +135,18 @@ class App extends React.Component {
                 while(p[x][y]!=-1){
                     if(this.state.stop[id]==1) break;
                     if(this.state.grid[x][y]==5) this.setVal(x,y,6);
+                    else if(this.state.grid[x][y]<=-50000) this.setVal(x,y,this.state.grid[x][y]-10000);
                     let d=p[x][y]; x-=dx[d]; y-=dy[d];
                     if(delay) await this.sleep(delay);
                 }
                 break;
             }
             else if(this.state.grid[x][y]==4) this.setVal(x,y,5);
+            else if(-50000<this.state.grid[x][y]&&this.state.grid[x][y]<=-40000) this.setVal(x,y,this.state.grid[x][y]-10000);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W&&p[x+dx[i]][y+dy[i]]==null){
                 p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                 if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
             }
             if(delay) await this.sleep(delay);
         }
@@ -153,6 +161,7 @@ class App extends React.Component {
             else if(this.state.grid[i][j]==3){
                 p[i][j]=-1; d[i][j]=0;
             }
+            else if(this.state.grid[i][j]<=-10000) this.state.grid[i][j]=this.state.grid[i][j]%10000;
         }
         while(toV.length>0){
             if(this.state.stop[id]==1) break;
@@ -163,19 +172,22 @@ class App extends React.Component {
                 while(p[x][y]!=-1){
                     if(this.state.stop[id]==1) break;
                     if(this.state.grid[x][y]==5) this.setVal(x,y,6);
+                    else if(this.state.grid[x][y]<=-50000) this.setVal(x,y,this.state.grid[x][y]-10000);
                     let dir=p[x][y]; x-=dx[dir]; y-=dy[dir];
                     if(delay) await this.sleep(delay);
                 }
                 break;
             }
             else if(this.state.grid[x][y]==4) this.setVal(x,y,5);
+            else if(-50000<this.state.grid[x][y]&&this.state.grid[x][y]<=-40000) this.setVal(x,y,this.state.grid[x][y]-10000);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
                 if(p[x+dx[i]][y+dy[i]]==null){
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
                 }
-                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1){
-                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1;
+                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
+                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
                     p[x+dx[i]][y+dy[i]]=i;
                 }
             }
@@ -192,6 +204,7 @@ class App extends React.Component {
             else if(this.state.grid[i][j]==3){
                 p[i][j]=-1; d[i][j]=0;
             }
+            else if(this.state.grid[i][j]<=-10000) this.state.grid[i][j]=this.state.grid[i][j]%10000;
         }
         while(toV.length>0){
             if(this.state.stop[id]==1) break;
@@ -200,17 +213,20 @@ class App extends React.Component {
                 while(p[x][y]!=-1){
                     if(this.state.stop[id]==1) break;
                     if(this.state.grid[x][y]==5) this.setVal(x,y,6);
+                    else if(this.state.grid[x][y]<=-50000) this.setVal(x,y,this.state.grid[x][y]-10000);
                     let dir=p[x][y]; x-=dx[dir]; y-=dy[dir];
                     if(delay) await this.sleep(delay);
                 }
                 break;
             }
             else if(this.state.grid[x][y]==4) this.setVal(x,y,5);
+            else if(-50000<this.state.grid[x][y]&&this.state.grid[x][y]<=-40000) this.setVal(x,y,this.state.grid[x][y]-10000);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
-                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1){
-                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1;
+                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
+                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
                 }
             }
             if(delay) await this.sleep(delay);
@@ -229,6 +245,7 @@ class App extends React.Component {
             else if(this.state.grid[i][j]==3){
                 p[i][j]=-1; d[i][j]=0;
             }
+            else if(this.state.grid[i][j]<=-10000) this.state.grid[i][j]=this.state.grid[i][j]%10000;
         }
         while(toV.length>0){
             if(this.state.stop[id]==1) break;
@@ -241,19 +258,22 @@ class App extends React.Component {
                 while(p[x][y]!=-1){
                     if(this.state.stop[id]==1) break;
                     if(this.state.grid[x][y]==5) this.setVal(x,y,6);
+                    else if(this.state.grid[x][y]<=-50000) this.setVal(x,y,this.state.grid[x][y]-10000);
                     let dir=p[x][y]; x-=dx[dir]; y-=dy[dir];
                     if(delay) await this.sleep(delay);
                 }
                 break;
             }
             else if(this.state.grid[x][y]==4) this.setVal(x,y,5);
+            else if(-50000<this.state.grid[x][y]&&this.state.grid[x][y]<=-40000) this.setVal(x,y,this.state.grid[x][y]-10000);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
                 if(p[x+dx[i]][y+dy[i]]==null){
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
                 }
-                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1){
-                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]])+1;
+                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
+                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
                     p[x+dx[i]][y+dy[i]]=i;
                 }
             }
@@ -261,12 +281,39 @@ class App extends React.Component {
         }
     }
     setWeight(event){
-        var w=Math.max(0,Math.min(10000,event.target.value));
+        var w=Math.max(0,Math.min(9999,event.target.value));
         this.setState({weight:-w});
         this.setMark(-w);
     }
     setAlgo(event){
         this.setState({algo:event.target.value});
+    }
+    setBoard(event){
+        this.setState({board:event.target.value});
+    }
+    clear() {
+        var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
+        if(this.state.board=="clear") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
+        else if(this.state.board=="random") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.2? 3: 0);
+        else if(this.state.board=="random weighted") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.5? 0: Math.floor((-Math.random()*Math.random()*100)));
+        else if(this.state.board=="maze"||this.state.board=="random maze"){
+            var p=this.state.board=="maze"? 0:0.2;
+            for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<p? 3: 0);
+            var dx=[1,0,-1,0],dy=[0,1,0,-1],toV=[],num=Array(H).fill().map(()=>Array(W).fill(0)),cur=0;
+            toV.push([0,0]); toV.push([H-1,W-1]);
+            while(cur<toV.length){
+                let x=toV[cur][0],y=toV[cur][1]; cur++; console.log(x,y);
+                if(num[x][y]>1&&Math.random()>p){
+                    this.setVal(x,y,3);
+                    continue;
+                }
+                num[x][y]++;
+                for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W&&this.state.grid[x+dx[i]][y+dy[i]]!=3){
+                    num[x+dx[i]][y+dy[i]]++;
+                    if(num[x+dx[i]][y+dy[i]]==1) toV.push([x+dx[i],y+dy[i]]);
+                }
+            }
+        }
     }
     render(){
         document.title="Aaerialys | Grid Simulator"
@@ -282,7 +329,16 @@ class App extends React.Component {
                 <button onClick={() => this.setMark(3)}>Add Wall</button>
                 <button onClick={() => this.setMark(1)}>Add Source</button>
                 <button onClick={() => this.setMark(2)}>Add Sink</button>
-                <button onClick={() => this.clear()}>Clear</button>
+                <label>
+                    <button onClick={() => this.clear()}>Set board</button>
+                    <select onChange={(event) => this.setBoard(event)}>
+                        <option value="clear">Clear</option>
+                        <option value="random">Random</option>
+                        <option value="random weighted">Random weighted</option>
+                        <option value="maze">Fractal</option>
+                        <option value="random maze">Random Fractal</option>
+                    </select>
+                </label>
                 <label>
                     <button onClick={() => this.setMark(this.state.weight)}>Add empty cell (weighted)</button>
                     <input type="number" value={-this.state.weight} onChange={(event) => this.setWeight(event)}/>
