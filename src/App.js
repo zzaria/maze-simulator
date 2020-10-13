@@ -316,7 +316,6 @@ class App extends React.Component {
         }
     }
     render(){
-        document.title="Aaerialys | Grid Simulator"
         return (
           <div>
             <header>
