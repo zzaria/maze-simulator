@@ -296,8 +296,8 @@ class App extends React.Component {
         if(this.state.board=="clear") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
         else if(this.state.board=="random") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.2? 3: 0);
         else if(this.state.board=="random weighted") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.5? 0: Math.floor((-Math.random()*Math.random()*100)));
-        else if(this.state.board=="maze"||this.state.board=="random maze"){
-            var p=this.state.board=="maze"? 0:0.2;
+        else if(this.state.board=="fractal"||this.state.board=="random fractal"){
+            var p=this.state.board=="fractal"? 0:0.2;
             for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<p? 3: 0);
             var dx=[1,0,-1,0],dy=[0,1,0,-1],toV=[],num=Array(H).fill().map(()=>Array(W).fill(0)),cur=0;
             toV.push([0,0]);
@@ -329,18 +329,18 @@ class App extends React.Component {
                 <button onClick={() => this.setMark(1)}>Add Source</button>
                 <button onClick={() => this.setMark(2)}>Add Sink</button>
                 <label>
+                    <button onClick={() => this.setMark(this.state.weight)}>Add empty cell (weighted)</button>
+                    <input type="number" value={-this.state.weight} onChange={(event) => this.setWeight(event)}/>
+                </label>
+                <label>
                     <button onClick={() => this.clear()}>Set board</button>
                     <select onChange={(event) => this.setBoard(event)}>
                         <option value="clear">Clear</option>
                         <option value="random">Random</option>
                         <option value="random weighted">Random weighted</option>
-                        <option value="maze">Fractal</option>
-                        <option value="random maze">Random Fractal</option>
+                        <option value="fractal">Fractal</option>
+                        <option value="random fractal">Random Fractal</option>
                     </select>
-                </label>
-                <label>
-                    <button onClick={() => this.setMark(this.state.weight)}>Add empty cell (weighted)</button>
-                    <input type="number" value={-this.state.weight} onChange={(event) => this.setWeight(event)}/>
                 </label>
                 <label>
                     <button onClick={() => this.search(1)}>Search</button>
