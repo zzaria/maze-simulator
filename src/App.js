@@ -22,6 +22,24 @@ function Cell(props){
         </div>
     );
 }
+class DSU{
+	constructor(){
+		this.p=Array(H*W).fill(-1);
+	}
+	head(x){return this.p[x]<0? x: this.p[x]=this.head(this.p[x]);}
+	link(u,v){
+		if(u>=H*W||v>=H*W) return 1;
+		u=this.head(u); v=this.head(v);
+		if(u==v) return 0;
+		if(this.p[u]<this.p[v]){
+			this.p[u]+=this.p[v]; this.p[v]=u;
+		}
+		else{
+			this.p[v]+=this.p[u]; this.p[u]=v;
+		}
+		return 1;
+	}
+}
 class App extends React.Component {
     constructor(props){
         super(props);
@@ -327,6 +345,18 @@ class App extends React.Component {
                 }
             }
         }
+        else if(this.state.board=="maze"){
+        	var e=[],dsu=new DSU();
+        	for(let i=0;i<H;i++) for(let j=0;j<W;j++){
+        		this.setVal(i,j,i%2==0&&j%2==0? 0: 3);
+        		if(i%2==0&&j%2==0&&i<H-1) e.push([i,j,0]);
+        		if(i%2==0&&j%2==0&&j<W-1) e.push([i,j,1]);
+        	}
+        	for(let i=e.length-1;i>=0;i--){
+        		let x=Math.floor(Math.random()*(i+1)),y=e[x]; e[x]=e[i];
+        		if(dsu.link(y[0]*W+y[1],(y[0]+2-2*y[2])*W+y[1]+2*y[2])||Math.random()<0.1) this.setVal(y[0]+1-y[2],y[1]+y[2],0); 
+        	}
+        }
         this.updateAll();
     }
     render(){
@@ -354,6 +384,7 @@ class App extends React.Component {
                         <option value="random weighted">Random weighted</option>
                         <option value="fractal">Fractal</option>
                         <option value="random fractal">Random Fractal</option>
+                        <option value="maze">Maze</option>
                     </select>
                 </label>
                 <label>
@@ -365,12 +396,12 @@ class App extends React.Component {
                         <option value="spfa">spfa</option>
                         <option value="astar">a*</option>
                     </select>
+	                <select onChange={(event) => this.setSpeed(event)}>
+	                    <option value={1}>Fast</option>
+	                    <option value={100}>Medium</option>
+	                    <option value={500}>Slow</option>
+	                </select>
                 </label>
-                <select onChange={(event) => this.setSpeed(event)}>
-                    <option value={1}>Fast</option>
-                    <option value={100}>Medium</option>
-                    <option value={500}>Slow</option>
-                </select>
                 <p>This program simulates pathfinding algorithms on a grid to find the shortest path from any source to sink.</p>
            		<div onMouseDown={() => this.mousePress(1)} onMouseUp={() => this.mousePress(0)}>
 	                {display}
