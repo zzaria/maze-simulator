@@ -76,7 +76,7 @@ class App extends React.Component {
     }
     dragOver(x,y,click){
         if(!click&&!this.state.pressed) return;
-        if(this.state.grid[x][y]==this.state.mark) this.setVal(x,y,0);
+        if(this.state.grid[x][y]%10000==this.state.mark) this.setVal(x,y,0);
         else this.setVal(x,y,this.state.mark);
         this.search(0);
     }
