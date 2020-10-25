@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/grid-simulator/static/css/main.8f76bb82.chunk.css",
-    "main.js": "/grid-simulator/static/js/main.f32b9414.chunk.js",
-    "main.js.map": "/grid-simulator/static/js/main.f32b9414.chunk.js.map",
+    "main.css": "/grid-simulator/static/css/main.a0a9cc70.chunk.css",
+    "main.js": "/grid-simulator/static/js/main.2f9919d0.chunk.js",
+    "main.js.map": "/grid-simulator/static/js/main.2f9919d0.chunk.js.map",
     "runtime-main.js": "/grid-simulator/static/js/runtime-main.475f2a15.js",
     "runtime-main.js.map": "/grid-simulator/static/js/runtime-main.475f2a15.js.map",
     "static/js/2.38b77a27.chunk.js": "/grid-simulator/static/js/2.38b77a27.chunk.js",
     "static/js/2.38b77a27.chunk.js.map": "/grid-simulator/static/js/2.38b77a27.chunk.js.map",
     "index.html": "/grid-simulator/index.html",
-    "precache-manifest.b3187a1c01451f28c3c3edc244f51cde.js": "/grid-simulator/precache-manifest.b3187a1c01451f28c3c3edc244f51cde.js",
+    "precache-manifest.571df810e19b647d69904f0c2110bb89.js": "/grid-simulator/precache-manifest.571df810e19b647d69904f0c2110bb89.js",
     "service-worker.js": "/grid-simulator/service-worker.js",
-    "static/css/main.8f76bb82.chunk.css.map": "/grid-simulator/static/css/main.8f76bb82.chunk.css.map",
+    "static/css/main.a0a9cc70.chunk.css.map": "/grid-simulator/static/css/main.a0a9cc70.chunk.css.map",
     "static/js/2.38b77a27.chunk.js.LICENSE.txt": "/grid-simulator/static/js/2.38b77a27.chunk.js.LICENSE.txt",
     "static/media/index.css": "/grid-simulator/static/media/OpenSans-Regular.629a55a7.ttf",
     "static/media/logo.png": "/grid-simulator/static/media/logo.2831d726.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.475f2a15.js",
     "static/js/2.38b77a27.chunk.js",
-    "static/css/main.8f76bb82.chunk.css",
-    "static/js/main.f32b9414.chunk.js"
+    "static/css/main.a0a9cc70.chunk.css",
+    "static/js/main.2f9919d0.chunk.js"
   ]
 }
