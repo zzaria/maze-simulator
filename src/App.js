@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import logo from './assets/images/logo.png'
 
-var H=Math.floor(window.innerHeight/25)-6,W=Math.floor(window.innerWidth/25);
+var H=Math.floor((window.innerHeight-110-25*Math.ceil(1800/window.innerWidth))/25),W=Math.floor(window.innerWidth/25);
+console.log(22*Math.ceil(1800/window.innerWidth));
 var color=["white", "lime", "red", "black", "#f37fff", "#bf49ff","gold"];
 var display=Array(H).fill().map(()=>Array(W));
 function Cell(props){
