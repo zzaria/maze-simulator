@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/grid-simulator/static/css/main.a0a9cc70.chunk.css",
-    "main.js": "/grid-simulator/static/js/main.7f6250e0.chunk.js",
-    "main.js.map": "/grid-simulator/static/js/main.7f6250e0.chunk.js.map",
+    "main.js": "/grid-simulator/static/js/main.8c5d31c2.chunk.js",
+    "main.js.map": "/grid-simulator/static/js/main.8c5d31c2.chunk.js.map",
     "runtime-main.js": "/grid-simulator/static/js/runtime-main.475f2a15.js",
     "runtime-main.js.map": "/grid-simulator/static/js/runtime-main.475f2a15.js.map",
-    "static/js/2.e7da2d9c.chunk.js": "/grid-simulator/static/js/2.e7da2d9c.chunk.js",
-    "static/js/2.e7da2d9c.chunk.js.map": "/grid-simulator/static/js/2.e7da2d9c.chunk.js.map",
+    "static/js/2.38b77a27.chunk.js": "/grid-simulator/static/js/2.38b77a27.chunk.js",
+    "static/js/2.38b77a27.chunk.js.map": "/grid-simulator/static/js/2.38b77a27.chunk.js.map",
     "index.html": "/grid-simulator/index.html",
-    "precache-manifest.b228aaf319e0ffe60d335ecc3977c05d.js": "/grid-simulator/precache-manifest.b228aaf319e0ffe60d335ecc3977c05d.js",
+    "precache-manifest.9dea4f518507afe05dedcfe5be197a10.js": "/grid-simulator/precache-manifest.9dea4f518507afe05dedcfe5be197a10.js",
     "service-worker.js": "/grid-simulator/service-worker.js",
     "static/css/main.a0a9cc70.chunk.css.map": "/grid-simulator/static/css/main.a0a9cc70.chunk.css.map",
-    "static/js/2.e7da2d9c.chunk.js.LICENSE.txt": "/grid-simulator/static/js/2.e7da2d9c.chunk.js.LICENSE.txt",
+    "static/js/2.38b77a27.chunk.js.LICENSE.txt": "/grid-simulator/static/js/2.38b77a27.chunk.js.LICENSE.txt",
     "static/media/index.css": "/grid-simulator/static/media/OpenSans-Regular.629a55a7.ttf",
     "static/media/logo.png": "/grid-simulator/static/media/logo.2831d726.png"
   },
   "entrypoints": [
     "static/js/runtime-main.475f2a15.js",
-    "static/js/2.e7da2d9c.chunk.js",
+    "static/js/2.38b77a27.chunk.js",
     "static/css/main.a0a9cc70.chunk.css",
-    "static/js/main.7f6250e0.chunk.js"
+    "static/js/main.8c5d31c2.chunk.js"
   ]
 }
