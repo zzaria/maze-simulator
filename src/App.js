@@ -329,9 +329,9 @@ class App extends React.Component {
         else if(this.state.board=="random") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.2? 3: 0);
         else if(this.state.board=="random weighted") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.5? 0: Math.floor((-Math.random()*Math.random()*100)));
         else if(this.state.board=="fractal"||this.state.board=="random fractal"){
-            var p=this.state.board=="fractal"? 0:0.2;
+            let p=this.state.board=="fractal"? 0:0.2;
             for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<p? 3: 0);
-            var dx=[1,0,-1,0],dy=[0,1,0,-1],toV=[],num=Array(H).fill().map(()=>Array(W).fill(0)),cur=0;
+            let dx=[1,0,-1,0],dy=[0,1,0,-1],toV=[],num=Array(H).fill().map(()=>Array(W).fill(0)),cur=0;
             toV.push([0,0]);
             while(cur<toV.length){
                 let x=toV[cur][0],y=toV[cur][1]; cur++;
@@ -347,7 +347,7 @@ class App extends React.Component {
             }
         }
         else if(this.state.board=="maze"){
-        	var e=[],dsu=new DSU();
+        	let e=[],dsu=new DSU();
         	for(let i=0;i<H;i++) for(let j=0;j<W;j++){
         		this.setVal(i,j,i%2==0&&j%2==0? 0: 3);
         		if(i%2==0&&j%2==0&&i<H-1) e.push([i,j,0]);
@@ -357,6 +357,24 @@ class App extends React.Component {
         		let x=Math.floor(Math.random()*(i+1)),y=e[x]; e[x]=e[i];
         		if(dsu.link(y[0]*W+y[1],(y[0]+2-2*y[2])*W+y[1]+2*y[2])||Math.random()<0.1) this.setVal(y[0]+1-y[2],y[1]+y[2],0); 
         	}
+        }
+        else if(this.state.board=="path"||this.state.board=="random path"){
+	        let dx=[1,0,-1,0],dy=[0,1,0,-1],f=Array(H).fill().map(()=>Array(W)),toV=[[0,0]],filled=1;
+	        if(this.state.board=="random path") toV=[[Math.floor(Math.random()*H),Math.floor(Math.random()*W)]];
+	        while(filled<H*W){
+	            let xy=toV.pop(),x=xy[0],y=xy[1],skip=1;
+	            for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W&&f[x+dx[i]][y+dy[i]]==null){
+		            f[x+dx[i]][y+dy[i]]=3; toV.push([x+dx[i],y+dy[i]]);
+		            filled++; skip=0;
+	            }
+	            if(skip==1) continue;
+	            f[x][y]=0;
+	            if(this.state.board=="random path") for(let i=3;i>=0;i--){
+	            	let t=Math.floor(Math.random()*(i+1)),tx=dx[t],ty=dy[t];
+	            	dx[t]=dx[i]; dy[t]=dy[i]; dx[i]=tx; dy[i]=ty;
+	            }
+	        }
+	        for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,f[i][j]);
         }
         this.updateAll();
     }
@@ -386,6 +404,8 @@ class App extends React.Component {
                         <option value="fractal">Fractal</option>
                         <option value="random fractal">Random Fractal</option>
                         <option value="maze">Maze</option>
+                        <option value="path">Path</option>
+                        <option value="random path">Random Path</option>
                     </select>
                 </label>
                 <label>
