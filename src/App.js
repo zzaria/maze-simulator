@@ -368,7 +368,7 @@ class App extends React.Component {
 	            }
 	            if(skip==1) continue;
 	            f[x][y]=0;
-	            if(this.state.board=="random path") for(let i=3;i>=0;i--){
+	            if(this.state.board=="random path") for(let i=3;i>=0;i--){ //&&Math.random()<0.2
 	            	let t=Math.floor(Math.random()*(i+1)),tx=dx[t],ty=dy[t];
 	            	dx[t]=dx[i]; dy[t]=dy[i]; dx[i]=tx; dy[i]=ty;
 	            }
