@@ -163,7 +163,7 @@ class App extends React.Component {
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W&&p[x+dx[i]][y+dy[i]]==null){
                 p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                 if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4,delay);
-                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000,delay);
             }
             if(delay) await this.sleep(delay);
             if(this.state.grid[x][y]==6) this.setVal(x,y,5,delay);
@@ -249,7 +249,7 @@ class App extends React.Component {
                     d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4,delay);
-                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000,delay);
                 }
             }
             if(delay) await this.sleep(delay);
@@ -296,7 +296,7 @@ class App extends React.Component {
                 if(p[x+dx[i]][y+dy[i]]==null){
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4,delay);
-                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
+                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000,delay);
                 }
                 if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
                     d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
