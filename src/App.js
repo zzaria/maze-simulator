@@ -204,7 +204,7 @@ class App extends React.Component {
                 if(p[x+dx[i]][y+dy[i]]==null){
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                     if(this.state.grid[x+dx[i]][y+dy[i]]==0) this.setVal(x+dx[i],y+dy[i],4,delay);
-                else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000);
+                	else if(-10000<this.state.grid[x+dx[i]][y+dy[i]]&&this.state.grid[x+dx[i]][y+dy[i]]<0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]-40000,delay);
                 }
                 if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
                     d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
