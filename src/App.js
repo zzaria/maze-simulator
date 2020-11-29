@@ -213,16 +213,7 @@ class App extends React.Component {
         while(toV.length>0){
             if(this.state.stop[id]==1) break;
             let x=toV[0][0],y=toV[0][1]; toV.splice(0,1);
-            if(this.state.grid[x][y]==20000){
-                while(p[x][y]!=-1){
-                    if(this.state.stop[id]==1) break;
-                    if(this.state.grid[x][y]-this.state.grid[x][y]%10000==50000) this.setVal(x,y,this.state.grid[x][y]+10000,delay);
-                    let dir=p[x][y]; x-=dx[dir]; y-=dy[dir];
-                    if(delay==1&&cnt++%10==0||delay>1) await this.sleep(delay);
-                }
-                break;
-            }
-            else if(this.state.grid[x][y]-this.state.grid[x][y]%10000==40000) this.setVal(x,y,this.state.grid[x][y]+20000,delay);
+            if(this.state.grid[x][y]-this.state.grid[x][y]%10000==40000) this.setVal(x,y,this.state.grid[x][y]+20000,delay);
             else if(this.state.grid[x][y]-this.state.grid[x][y]%10000==50000) this.setVal(x,y,this.state.grid[x][y]+10000,delay);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
                 if(d[x+dx[i]][y+dy[i]]>d[x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1){
@@ -233,6 +224,16 @@ class App extends React.Component {
             }
             if(delay==1&&cnt++%20==0||delay>1) await this.sleep(delay);
             if(this.state.grid[x][y]-this.state.grid[x][y]%10000==60000) this.setVal(x,y,this.state.grid[x][y]-10000,delay);
+        }
+        let x=-1,y=-1;
+        for(let i=0;i<H;i++) for(let j=0;j<W;j++) if(this.state.grid[i][j]==20000&&(x==-1||d[i][j]<d[x][y])){
+        	x=i; y=j;
+        }
+        if(x!=-1&&d[x][y]<1e9) while(p[x][y]!=-1){
+            if(this.state.stop[id]==1) break;
+            if(this.state.grid[x][y]-this.state.grid[x][y]%10000==50000) this.setVal(x,y,this.state.grid[x][y]+10000,delay);
+            let dir=p[x][y]; x-=dx[dir]; y-=dy[dir];
+            if(delay==1&&cnt++%10==0||delay>1) await this.sleep(delay);
         }
     }
     async astar(delay){
