@@ -223,9 +223,10 @@ class App extends React.Component {
                 break;
             }
             else if(this.state.grid[x][y]-this.state.grid[x][y]%10000==40000) this.setVal(x,y,this.state.grid[x][y]+20000,delay);
+            else if(this.state.grid[x][y]-this.state.grid[x][y]%10000==50000) this.setVal(x,y,this.state.grid[x][y]+10000,delay);
             for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
-                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
-                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
+                if(d[x+dx[i]][y+dy[i]]>d[x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1){
+                    d[x+dx[i]][y+dy[i]]=d[x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1;
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                 	if(this.state.grid[x+dx[i]][y+dy[i]]-this.state.grid[x+dx[i]][y+dy[i]]%10000==0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]+40000,delay);
                 }
@@ -272,8 +273,8 @@ class App extends React.Component {
                     p[x+dx[i]][y+dy[i]]=i; toV.push([x+dx[i],y+dy[i]]);
                 	if(this.state.grid[x+dx[i]][y+dy[i]]-this.state.grid[x+dx[i]][y+dy[i]]%10000==0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]+40000,delay);
                 }
-                if(d[x+dx[i]][y+dy[i]]>d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1){
-                    d[x+dx[i]][y+dy[i]]=d[x][y]-Math.min(0,this.state.grid[x+dx[i]][y+dy[i]]%10000)+1;
+                if(d[x+dx[i]][y+dy[i]]>d[x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1){
+                    d[x+dx[i]][y+dy[i]]=d[x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1;
                     p[x+dx[i]][y+dy[i]]=i;
                 }
             }
