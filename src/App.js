@@ -397,10 +397,10 @@ class App extends React.Component {
                         <option value="astar">a*</option>
                     </select>
 	                <select onChange={(event) => this.setSpeed(event)}>
-	                    <option value={1}>Fast</option>
-	                    <option value={2}>Medium</option>
-	                    <option value={100}>Slow</option>
-	                    <option value={500}>Very Slow</option>
+	                    <option value={1}>Very Fast</option>
+	                    <option value={2} selected>Fast</option>
+	                    <option value={100}>Medium</option>
+	                    <option value={500}>Slow</option>
 	                </select>
                 </label>
                 <p>This program simulates pathfinding algorithms on a grid to find the shortest path from any source to sink.</p>
