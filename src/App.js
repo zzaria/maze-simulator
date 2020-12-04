@@ -291,13 +291,13 @@ class App extends React.Component {
     setAlgo(event){
         this.setState({algo:event.target.value});
     }
-    setBoard(event){
+    setBoardOption(event){
         this.setState({board:event.target.value});
     }
     setSpeed(event){
     	this.setState({speed:event.target.value});
     }
-    clear() {
+    setBoard() {
         var stop2=this.state.stop.slice(); stop2[this.state.fid-1]=1; this.setState({stop:stop2});
         if(this.state.board=="clear") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
         else if(this.state.board=="random") for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,Math.random()<0.2? 30000: 0);
@@ -334,9 +334,9 @@ class App extends React.Component {
         }
         else if(this.state.board=="path"||this.state.board=="random path 1"||this.state.board=="random path 2"||this.state.board=="random path 3"){
 	        let dx=[1,0,-1,0],dy=[0,1,0,-1],f=Array(H).fill().map(()=>Array(W)),toV=[[0,0]],filled=1,p=0;
-	        if(this.state.board=="random path 1") p=1;
+	        if(this.state.board=="random path 3") p=1;
 	        else if(this.state.board=="random path 2") p=0.1;
-	        else if(this.state.board=="random path 3") p=0.01;
+	        else if(this.state.board=="random path 1") p=0.01;
 	        if(this.state.board!="path") toV=[[Math.floor(Math.random()*H),Math.floor(Math.random()*W)]];
 	        while(filled<H*W){
 	            let xy=toV.pop(),x=xy[0],y=xy[1],skip=1;
@@ -373,8 +373,8 @@ class App extends React.Component {
                     <input type="number" value={this.state.weight} onChange={(event) => this.setWeight(event)}/>
                 </label>
                 <label>
-                    <button onClick={() => this.clear()}>Set board</button>
-                    <select onChange={(event) => this.setBoard(event)}>
+                    <button onClick={() => this.setBoard()}>Set board</button>
+                    <select onChange={(event) => this.setBoardOption(event)}>
                         <option value="clear">Clear</option>
                         <option value="random">Random</option>
                         <option value="random weighted">Random weighted</option>
