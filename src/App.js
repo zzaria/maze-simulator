@@ -48,7 +48,7 @@ class App extends React.Component {
             weight: 0,
             algo: "bfs",
             board: "clear",
-            speed: 1,
+            speed: 2,
         };
     }
     componentDidMount(){
@@ -396,9 +396,9 @@ class App extends React.Component {
                         <option value="spfa">spfa</option>
                         <option value="astar">a*</option>
                     </select>
-	                <select onChange={(event) => this.setSpeed(event)}>
+	                <select value={this.state.speed} onChange={(event) => this.setSpeed(event)}>
 	                    <option value={1}>Very Fast</option>
-	                    <option value={2} selected>Fast</option>
+	                    <option value={2}>Fast</option>
 	                    <option value={100}>Medium</option>
 	                    <option value={500}>Slow</option>
 	                </select>
