@@ -47,7 +47,7 @@ class App extends React.Component {
             stop: [],
             weight: 0,
             algo: "bfs",
-            board: "clear",
+            board: "maze",
             speed: 2,
         };
     }
