@@ -53,6 +53,7 @@ class App extends React.Component {
     }
     componentDidMount(){
     	this.setBoard();
+    	this.setState({board:"clear"});
     }
     updateAll(){
     	for(let i=0;i<H;i++){
