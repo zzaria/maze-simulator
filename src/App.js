@@ -375,7 +375,7 @@ class App extends React.Component {
                 </label>
                 <label>
                     <button onClick={() => this.setBoard()}>Set board</button>
-                    <select onChange={(event) => this.setBoardOption(event)}>
+                    <select value={this.state.board} onChange={(event) => this.setBoardOption(event)}>
                         <option value="clear">Clear</option>
                         <option value="random">Random</option>
                         <option value="random weighted">Random weighted</option>
