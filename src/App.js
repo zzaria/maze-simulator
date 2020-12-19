@@ -52,7 +52,7 @@ class App extends React.Component {
         };
     }
     componentDidMount(){
-    	this.updateAll();
+    	this.setBoard();
     }
     updateAll(){
     	for(let i=0;i<H;i++){
