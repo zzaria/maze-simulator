@@ -367,8 +367,8 @@ class App extends React.Component {
             </div>
             <div>
                 <button onClick={() => this.setMark(30000)}>Add Wall</button>
-                <button onClick={() => this.setMark(10000)}>Add Source</button>
-                <button onClick={() => this.setMark(20000)}>Add Sink</button>
+                <button onClick={() => this.setMark(10000)}>Add Start</button>
+                <button onClick={() => this.setMark(20000)}>Add End</button>
                 <label>
                     <button onClick={() => this.setMark(this.state.weight)}>Add empty cell (weighted)</button>
                     <input type="number" value={this.state.weight} onChange={(event) => this.setWeight(event)}/>
@@ -404,7 +404,7 @@ class App extends React.Component {
 	                    <option value={500}>Slow</option>
 	                </select>
                 </label>
-                <p>This program simulates pathfinding algorithms on a grid to find the shortest path from any source to sink.</p>
+                <p>This program simulates pathfinding algorithms on a grid to find the shortest path from any start to end cell.</p>
            		<div onMouseDown={() => this.mousePress(1)} onMouseUp={() => this.mousePress(0)}>
 	                {display}
 	            </div>
