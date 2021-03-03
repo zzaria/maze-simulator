@@ -360,7 +360,7 @@ class App extends React.Component {
         return (
           <div>
             <header>
-              <h1><a href="index.html">Grid Simulator</a></h1>
+              <h1><a href="index.html">Maze Simulator</a></h1>
               <a href="https://aaerialys.me"><img src={logo} alt="logo" /></a>
             </header>
             <div className="main">
