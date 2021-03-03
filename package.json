@@ -1,6 +1,6 @@
 {
-  "homepage": "https://aaerialys.github.io/grid-simulator",
-  "name": "grid-simulator",
+  "homepage": "https://aaerialys.github.io/maze-simulator",
+  "name": "maze-simulator",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
