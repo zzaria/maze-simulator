@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/maze-simulator/static/css/main.53003e20.chunk.css",
-    "main.js": "/maze-simulator/static/js/main.c433ec01.chunk.js",
-    "main.js.map": "/maze-simulator/static/js/main.c433ec01.chunk.js.map",
+    "main.js": "/maze-simulator/static/js/main.805a2c55.chunk.js",
+    "main.js.map": "/maze-simulator/static/js/main.805a2c55.chunk.js.map",
     "runtime-main.js": "/maze-simulator/static/js/runtime-main.542cbe2d.js",
     "runtime-main.js.map": "/maze-simulator/static/js/runtime-main.542cbe2d.js.map",
     "static/js/2.266cbbb3.chunk.js": "/maze-simulator/static/js/2.266cbbb3.chunk.js",
     "static/js/2.266cbbb3.chunk.js.map": "/maze-simulator/static/js/2.266cbbb3.chunk.js.map",
     "index.html": "/maze-simulator/index.html",
-    "precache-manifest.8aa190dd24372135934bb7739c392676.js": "/maze-simulator/precache-manifest.8aa190dd24372135934bb7739c392676.js",
+    "precache-manifest.6101137bd9e51abcec6d5619a725144c.js": "/maze-simulator/precache-manifest.6101137bd9e51abcec6d5619a725144c.js",
     "service-worker.js": "/maze-simulator/service-worker.js",
     "static/css/main.53003e20.chunk.css.map": "/maze-simulator/static/css/main.53003e20.chunk.css.map",
     "static/js/2.266cbbb3.chunk.js.LICENSE.txt": "/maze-simulator/static/js/2.266cbbb3.chunk.js.LICENSE.txt",
@@ -19,6 +19,6 @@
     "static/js/runtime-main.542cbe2d.js",
     "static/js/2.266cbbb3.chunk.js",
     "static/css/main.53003e20.chunk.css",
-    "static/js/main.c433ec01.chunk.js"
+    "static/js/main.805a2c55.chunk.js"
   ]
 }
