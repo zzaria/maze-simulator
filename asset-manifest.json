@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/maze-simulator/static/css/main.53003e20.chunk.css",
-    "main.js": "/maze-simulator/static/js/main.805a2c55.chunk.js",
-    "main.js.map": "/maze-simulator/static/js/main.805a2c55.chunk.js.map",
+    "main.css": "/maze-simulator/static/css/main.2ffda336.chunk.css",
+    "main.js": "/maze-simulator/static/js/main.570a4e54.chunk.js",
+    "main.js.map": "/maze-simulator/static/js/main.570a4e54.chunk.js.map",
     "runtime-main.js": "/maze-simulator/static/js/runtime-main.542cbe2d.js",
     "runtime-main.js.map": "/maze-simulator/static/js/runtime-main.542cbe2d.js.map",
     "static/js/2.266cbbb3.chunk.js": "/maze-simulator/static/js/2.266cbbb3.chunk.js",
     "static/js/2.266cbbb3.chunk.js.map": "/maze-simulator/static/js/2.266cbbb3.chunk.js.map",
     "index.html": "/maze-simulator/index.html",
-    "precache-manifest.6101137bd9e51abcec6d5619a725144c.js": "/maze-simulator/precache-manifest.6101137bd9e51abcec6d5619a725144c.js",
+    "precache-manifest.e005fcc3f4810c01e6b3aa266530eb54.js": "/maze-simulator/precache-manifest.e005fcc3f4810c01e6b3aa266530eb54.js",
     "service-worker.js": "/maze-simulator/service-worker.js",
-    "static/css/main.53003e20.chunk.css.map": "/maze-simulator/static/css/main.53003e20.chunk.css.map",
+    "static/css/main.2ffda336.chunk.css.map": "/maze-simulator/static/css/main.2ffda336.chunk.css.map",
     "static/js/2.266cbbb3.chunk.js.LICENSE.txt": "/maze-simulator/static/js/2.266cbbb3.chunk.js.LICENSE.txt",
     "static/media/index.css": "/maze-simulator/static/media/OpenSans-Regular.629a55a7.ttf",
     "static/media/logo.png": "/maze-simulator/static/media/logo.2831d726.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.542cbe2d.js",
     "static/js/2.266cbbb3.chunk.js",
-    "static/css/main.53003e20.chunk.css",
-    "static/js/main.805a2c55.chunk.js"
+    "static/css/main.2ffda336.chunk.css",
+    "static/js/main.570a4e54.chunk.js"
   ]
 }
