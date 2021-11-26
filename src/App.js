@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import logo from './assets/images/logo.png'
 
-var H=Math.floor((window.innerHeight-110-25*Math.ceil(1800/window.innerWidth))/25),W=Math.floor(window.innerWidth/25);
+var H=Math.floor((window.innerHeight-110-25*Math.ceil(1800/window.innerWidth))/26),W=Math.floor(window.innerWidth/26);
+console.log(H,W,window.innerHeight,window.innerWidth);
 var color=["white", "lime", "red", "black", "#f37fff", "#bf49ff","gold"];
 var display=Array(H).fill().map(()=>Array(W));
 function Cell(props){
@@ -57,8 +58,9 @@ class App extends React.Component {
     }
     updateAll(){
     	for(let i=0;i<H;i++){
-    		display[i]=[];
-    		for(let j=0;j<W;j++) display[i][j]=<Cell key={i*W+j} val={this.state.grid[i][j]} dragOver={(x)=> this.dragOver(i,j,x)}/>;
+    		var row=[];
+    		for(let j=0;j<W;j++) row[j]=<Cell key={i*W+j} val={this.state.grid[i][j]} dragOver={(x)=> this.dragOver(i,j,x)}/>;
+            display[i]=<div>{row}</div>
     	}
     	this.forceUpdate();
     }
@@ -66,8 +68,9 @@ class App extends React.Component {
         var grid2=this.state.grid.slice();
         grid2[x][y]=val;
         if(upd>0){
-        	display[x]=display[x].slice();
-        	display[x][y]=<Cell key={x*W+y} val={this.state.grid[x][y]} dragOver={(v)=> this.dragOver(x,y,v)}/>;
+    		var row=[];
+    		for(let j=0;j<W;j++) row[j]=<Cell key={x*W+j} val={this.state.grid[x][j]} dragOver={(v)=> this.dragOver(x,j,v)}/>;
+            display[x]=<div>{row}</div>
         }
         this.setState({grid:grid2});
     }
