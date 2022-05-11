@@ -95,6 +95,7 @@ class App extends React.Component {
         if(this.state.algo=="bfs") this.bfs(delay);
         else if(this.state.algo=="dfs") this.dfs(delay);
         else if(this.state.algo=="dijkstra") this.dijkstra(delay);
+        else if(this.state.algo=="dijkstra2") this.dijkstra2(delay);
         else if(this.state.algo=="spfa") this.spfa(delay);
         else if(this.state.algo=="astar") this.astar(delay);
         this.updateAll();
@@ -287,6 +288,55 @@ class App extends React.Component {
             if(this.state.grid[x][y]-this.state.grid[x][y]%10000==60000) this.setVal(x,y,this.state.grid[x][y]-10000,delay);
         }
     }
+    async dijkstra2(delay){
+        var dx=[1,0,-1,0],dy=[0,1,0,-1],p=Array(2).fill().map(()=>Array(H).fill().map(()=>Array(W))),d=Array(2).fill().map(()=>Array(H).fill().map(()=>Array(W).fill(1e9))),toV=[],id=this.state.fid,cnt=0; this.setState({fid:id+1});
+        for(let i=0;i<H;i++) for(let j=0;j<W;j++){
+            if(this.state.grid[i][j]>30000) this.setVal(i,j,this.state.grid[i][j]%10000);
+            else if(this.state.grid[i][j]==10000){
+                p[0][i][j]=-1; toV.push([0,i,j]); d[0][i][j]=0;
+            }
+            else if(this.state.grid[i][j]==20000){
+                p[1][i][j]=-1; toV.push([1,i,j]); d[1][i][j]=0;
+            }
+            else if(this.state.grid[i][j]==30000){
+                p[0][i][j]=p[1][i][j]=-1; d[0][i][j]=d[1][i][j]=0;
+            }
+        }
+        console.log(toV);
+        if(delay) this.updateAll();
+        while(toV.length>0){
+            if(this.state.stop[id]==1) break;
+            let cur=0;
+            for(let i=0;i<toV.length;i++) if(d[toV[i][0]][toV[i][1]][toV[i][2]]<d[toV[cur][0]][toV[cur][1]][toV[cur][2]]) cur=i;
+            let s=toV[cur][0],x=toV[cur][1],y=toV[cur][2]; toV.splice(cur,1);
+            if(d[1-s][x][y]<1e9){
+                for(let s=0;s<2;s++){
+                    let [s0,x0,y0]=[s,x,y];
+                    while(p[s][x][y]!=-1){
+                        if(this.state.stop[id]==1) break;
+                        if(this.state.grid[x][y]-this.state.grid[x][y]%10000==50000||this.state.grid[x][y]-this.state.grid[x][y]%10000==40000) this.setVal(x,y,this.state.grid[x][y]+10000,delay);
+                        let dir=p[s][x][y]; x-=dx[dir]; y-=dy[dir];
+                        if(delay==1&&cnt++%10==0||delay>1) await this.sleep(delay);
+                    }
+                    [s,x,y]=[s0,x0,y0];
+                }
+                break;
+            }
+            else if(this.state.grid[x][y]-this.state.grid[x][y]%10000==40000) this.setVal(x,y,this.state.grid[x][y]+20000,delay);
+            for(let i=0;i<4;i++) if(0<=x+dx[i]&&x+dx[i]<H&&0<=y+dy[i]&&y+dy[i]<W){
+                if(p[s][x+dx[i]][y+dy[i]]==null){
+                    p[s][x+dx[i]][y+dy[i]]=i; toV.push([s,x+dx[i],y+dy[i]]);
+                	if(this.state.grid[x+dx[i]][y+dy[i]]-this.state.grid[x+dx[i]][y+dy[i]]%10000==0) this.setVal(x+dx[i],y+dy[i],this.state.grid[x+dx[i]][y+dy[i]]+40000,delay);
+                }
+                if(d[s][x+dx[i]][y+dy[i]]>d[s][x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1){
+                    d[s][x+dx[i]][y+dy[i]]=d[s][x][y]+this.state.grid[x+dx[i]][y+dy[i]]%10000+1;
+                    p[s][x+dx[i]][y+dy[i]]=i;
+                }
+            }
+            if(delay==1&&cnt++%20==0||delay>1) await this.sleep(delay);
+            if(this.state.grid[x][y]-this.state.grid[x][y]%10000==60000) this.setVal(x,y,this.state.grid[x][y]-10000,delay);
+        }
+    }
     setWeight(event){
         var w=Math.max(0,Math.min(9999,event.target.value));
         this.setState({weight:w});
@@ -357,7 +407,33 @@ class App extends React.Component {
 	        }
 	        for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,f[i][j]);
         }
+        else if(this.state.board=="partitioned"){
+            for(let i=0;i<H;i++) for(let j=0;j<W;j++) this.setVal(i,j,0);
+            this.setPartition(0,H,0,W);
+        }
         this.updateAll();
+    }
+    setPartition(lx,rx,ly,ry){
+        if(rx-lx<2&&ry-ly<3||ry-ly<2&&rx-lx<3)
+            return;
+        if(rx-lx>ry-ly){
+            let mid=0,mid2=1;
+            while(mid%2==0)
+                mid=Math.floor(Math.random()*(rx-lx-2)+lx+1);
+            while(mid2%2==1)
+                mid2=Math.floor(Math.random()*(ry-ly)+ly);
+            for(let i=ly;i<ry;i++) if(i!=mid2) this.setVal(mid,i,30000);
+            this.setPartition(lx,mid,ly,ry); this.setPartition(mid+1,rx,ly,ry);
+        }
+        else{
+            let mid=0,mid2=1;
+            while(mid%2==0)
+                mid=Math.floor(Math.random()*(ry-ly-2)+ly+1)
+            while(mid2%2==1)
+                mid2=Math.floor(Math.random()*(rx-lx)+lx);
+            for(let i=lx;i<rx;i++) if(i!=mid2) this.setVal(i,mid,30000);
+            this.setPartition(lx,rx,ly,mid); this.setPartition(lx,rx,mid+1,ry);
+        }
     }
     render(){
         return (
@@ -389,6 +465,7 @@ class App extends React.Component {
                         <option value="random path 1">Random Path 1</option>
                         <option value="random path 2">Random Path 2</option>
                         <option value="random path 3">Random Path 3</option>
+                        <option value="partitioned">Partitioned Maze</option>
                     </select>
                 </label>
                 <label>
@@ -397,6 +474,7 @@ class App extends React.Component {
                         <option value="bfs">bfs</option>
                         <option value="dfs">dfs</option>
                         <option value="dijkstra">dijkstra</option>
+                        <option value="dijkstra2">Bidirectional dijkstra</option>
                         <option value="spfa">spfa</option>
                         <option value="astar">a*</option>
                     </select>
